@@ -1,20 +1,18 @@
 {
     "name": "safyre/fyreplace",
-    "description": "A php framework based on MVC concepts",
-    "type": "library",
+    "description": "A php frameowkr basec on MVC concepts",
+    "type": "project",
+    "license": "MIT License",
+    "autoload": {
+        "psr-4": {
+            "Safyre\\Fyreplace\\": "src/fyreplace/"
+        }
+    },
     "authors": [
         {
             "name": "Jackson LaMotte",
             "email": "lamottejackson@gmail.com"
         }
     ],
-    "minimum-stability": "dev",
-    "require": {
-        "php": ">=8.0"
-    },
-    "autoload": {
-        "psr-4": {
-            "fyreplace\\": "src/fyreplace"
-        }
-    }
+    "require": {}
 }
