@@ -2,7 +2,7 @@
     "name": "safyre/fyreplace",
     "description": "A php frameowkr basec on MVC concepts",
     "type": "project",
-    "license": "MIT License",
+    "license": "MIT",
     "autoload": {
         "psr-4": {
             "Safyre\\Fyreplace\\": "src/fyreplace/"
