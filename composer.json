@@ -1,7 +1,7 @@
 {
     "name": "safyre/fyreplace",
     "description": "A php framework based on MVC concepts",
-    "type": "project",
+    "type": "library",
     "license": "MIT",
     "autoload": {
         "psr-4": {
