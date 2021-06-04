@@ -1,6 +1,6 @@
 {
     "name": "safyre/fyreplace",
-    "description": "A php frameowkr basec on MVC concepts",
+    "description": "A php framework based on MVC concepts",
     "type": "project",
     "license": "MIT",
     "autoload": {
