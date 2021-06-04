@@ -1,0 +1,81 @@
+#!/usr/bin/env php
+<?php
+
+
+//First time initialization
+$storageDir = __DIR__ . DIRECTORY_SEPARATOR . 'src' . DIRECTORY_SEPARATOR . 'storage';
+if (!is_dir($storageDir) && !mkdir($storageDir) && !is_dir($storageDir)) {
+    throw new \RuntimeException(sprintf('Directory "%s" was not created', $storageDir));
+}
+if (!file_exists($storageDir . DIRECTORY_SEPARATOR . 'site_config.json')) {
+    file_put_contents($storageDir . DIRECTORY_SEPARATOR . 'site_config.json', "{}");
+}
+
+//Load settings from file
+$settings = json_decode(file_get_contents($storageDir . DIRECTORY_SEPARATOR . 'site_config.json'), true);
+
+print match ($argv[1]) {
+    //Suppress the pesky warning because I don't need to check for 4th arg realistically
+    "controller" => @controller($argv[2], $argv[3], $argv[4]),
+    default => "Please specify which command to run"
+};
+
+//TODO: Help
+/**
+ * Method for dealing with controllers
+ * @param string $subcommand Subcommand to run
+ * @param string $controller Controller to run subcommand on
+ * @return string Result message
+ */
+function controller(string $subcommand, string $controller, ?string $name = null): string {
+    global $settings;
+    $controllers = $settings["controllers"]??array();
+    switch ($subcommand) {
+        //Add controller to list
+        case "add":
+            if (empty($controller)) {
+                return "Please specify which controller you would like to add";
+            }
+            if(isset($controllers[$controller])){
+                return "$controller has already been added with name $controllers[$controller]. To remove it use 'fyreplace controller remove $controller'\n";
+            }
+            if(is_null($name)){
+                return "Please specify friendly name of controller (usually the name of the class with 'Controller' removed)";
+            }
+            $controllers[$controller] = $name;
+            $message = "Added $controller to controllers as $name";
+            break;
+        //Remove controller from list
+        case "remove":
+            if (empty($controller)) {
+                return "Please specify controller";
+            }
+            unset($controllers[$controller]);
+            $message = "Removed $controller from controllers";
+            break;
+        //List controllers
+        case "list":
+            $message = "";
+            foreach ($controllers as $qualified => $friendly) {
+                $message .= $qualified . " - " . $friendly . "\n";
+            }
+            $message = substr($message, 0, -1);
+            break;
+        //Set base directory for all controllers
+        case "set-namespace":
+            $settings["controller_namespace"] = $controller;
+            $message = "Set controller namespace to $controller";
+            break;
+        //No sub command
+        default:
+            $message = "Please specify sub-command";
+    }
+    $settings["controllers"] = $controllers;
+    save_to_config_file($settings);
+    return $message . "\n";
+}
+
+function save_to_config_file(array $config){
+    global $storageDir;
+    file_put_contents($storageDir . DIRECTORY_SEPARATOR . 'site_config.json', json_encode($config, JSON_PRETTY_PRINT));
+}
