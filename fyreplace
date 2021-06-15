@@ -66,6 +66,18 @@ function controller(string $subcommand, string $controller, ?string $name = null
             $settings["controller_namespace"] = $controller;
             $message = "Set controller namespace to $controller";
             break;
+        //TODO Allow setting by friendly name instead of fully qualified name
+        //Set the default controller
+        case "set-default":
+            if (empty($controller)) {
+                return "Please specify controller";
+            }
+            if(!isset($controllers[$controller])){
+                return "$controller couldn't be found. Has it been added already (fyreplace controller add)? Make sure it is the full name of the controller (not the friendly name)";
+            }
+            $settings["default_controller"] = $controller;
+            $message = "The default controller has been set to $controller ($controllers[$controller]";
+            break;
         //No sub command
         default:
             $message = "Please specify sub-command";
