@@ -5,7 +5,7 @@
     "license": "MIT",
     "autoload": {
         "psr-4": {
-            "Safyre\\Fyreplace\\": "src/fyreplace/"
+            "fyreplace\\": "src/fyreplace/"
         }
     },
     "authors": [
