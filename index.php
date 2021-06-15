@@ -18,13 +18,13 @@ $controllers = Settings::getArray("controllers");
 foreach ($controllers as $qualified => $match) {
     if ($match === $controller) {
         /** @var Controller $found_controller */
-        $found_controller = Settings::get("controller_namespace") . '\\' . $qualified;
+        $found_controller = '\\' . Settings::get("controller_namespace") . '\\' . $qualified;
         break;
     }
 }
 //Set to default controller if no controller was specified
 if(is_null($found_controller)){
-    $found_controller = Settings::get("controller_namespace") . '\\' . Settings::get("default_controller");
+    $found_controller = '\\' . Settings::get("controller_namespace") . '\\' . Settings::get("default_controller");
 }
 
 $result = $found_controller::getView($path_string, $_REQUEST);
